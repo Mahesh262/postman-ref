@@ -1,0 +1,58 @@
+import React, { useRef } from 'react'
+import axios from 'axios'
+import Bodypart from './postman/Bodypart'
+const App = () => {
+
+
+  let scv = useRef()
+  let resonsebody = useRef(
+    {
+      name: 'asasa',
+      price: 12,
+    }
+  )
+  let URI = useRef('')
+  const handls = (e) => {
+    e.preventDefault();
+    const Esub = (scv, URI, resonsebody = {}) => {
+      switch (scv) {
+        case 'get':
+          console.log('getlist')
+          console.log(axios.get(URI).then(res => console.log(res.data)).catch(error => console.log(error)))
+          break;
+        case 'post':
+          console.log("posting", resonsebody);
+          console.log(axios.post(URI, resonsebody).then(res => (res.json)).catch(errr => console.log(errr)))
+          break;
+        default:
+          console.log("no one selected")
+          break;
+      }
+
+    }
+    Esub(scv, URI, resonsebody)
+    console.log(scv)
+  }
+
+  return (
+    <>
+      <h1>first</h1>
+      <form>
+        <select onChange={e => scv = e.target.value}>
+          <option value="none">None</option>
+          <option value="post">post</option>
+          <option value="get">get</option>
+        </select>
+        <input
+          type="text"
+          onChange={e => URI = e.target.value}
+        /> <br />
+        <button onClick={handls}>Button</button>
+      </form>
+
+      <Bodypart />
+    </>
+  )
+}
+
+export default App
